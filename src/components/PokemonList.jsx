@@ -10,6 +10,8 @@ function PokemonList(){
   const [showList,setShowList] = useState(true);
   const [pokemonInfo,setPokemonInfo] = useState([]);
   const [target,setTarget] = useState(0);
+  const [imgUrls,setImgUrls] = useState([]);
+  const [targetIndex,setTargetIndex] = useState();
 
   useEffect(()=>{
      getPokemons(pokemonUrl).then(result => {
@@ -20,22 +22,19 @@ function PokemonList(){
         arr.push(false);
       });
       setShowImg(arr);
+      setImgUrls(arr.map((row)=>{
+        return "ph"
+      }));
       }
      });
-  })
+  },[])
 
   const handleOnClick = (e) =>{
     const index = e.target.id;
     setTarget(index);
-    const arr = [];
-    for(var i = 0; i < showImg.length;i++){
-      if(i == index){
-        arr[i] = true;
-      }
-      else{
-        arr[i] = showImg[i];
-      }
-    }
+    setTargetIndex(index);
+    const arr = [...showImg];
+    arr[index]= true;
     setShowImg(arr);
     setShowList(false);
    
@@ -62,7 +61,7 @@ function PokemonList(){
                 if(showImg[index]){
                   return (<div key={index}>
                     <div className="imgAndName">
-                    <PokemonImg url={row.url}/>  
+                    <PokemonImg url={row.url} setImgUrls={setImgUrls} imgUrls={imgUrls} index={index}/>  
                     <h3 className="name1" id={index} onClick={handleOnClick}>{row.name}</h3>
                     </div>
                   </div>)
@@ -79,7 +78,7 @@ function PokemonList(){
       </div>
       :
       <div>
-        <PokemonImg url={pokemons[target].url}/> 
+        <PokemonImg url={pokemons[target].url} setImgUrls={setImgUrls} imgUrls={imgUrls} index={targetIndex}/> 
         <h3>Name: {pokemons[target].name}</h3>
         <h3>Abilities</h3>
         {pokemonInfo.map((row,index)=>{

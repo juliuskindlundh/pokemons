@@ -4,8 +4,19 @@ const PokemonImg =(props) =>{
     const [src,setSrc] = useState("");
 
     useEffect(()=>{
-        fetch(props.url).then(data=>data.json()).then(data => setSrc(data.sprites.back_default));
-    })
+        if(String(props.imgUrls[props.index]) == "ph"){
+            fetch(props.url).then(data=>data.json()).then(data => {
+                const url = data.sprites.back_default;
+                setSrc(url);
+                let arr = [...props.imgUrls];
+                arr[props.index] = url;
+                props.setImgUrls(arr);
+            });
+        }
+        else{
+            setSrc(props.imgUrls[props.index]);
+        }
+    },[])
 
     return(
         <img src={src} alt="pokemon"/>
