@@ -13,6 +13,10 @@ function PokemonList(){
   const [imgUrls,setImgUrls] = useState([]);
   const [targetIndex,setTargetIndex] = useState();
 
+  /*
+      fetch list of pokemons
+      set default values for "showImg" and "imgUrls"
+  */
   useEffect(()=>{
      getPokemons(pokemonUrl).then(result => {
       setPokemons(result);
@@ -29,6 +33,11 @@ function PokemonList(){
      });
   },[])
 
+  /*
+      get the index of the target pokemon and set the corresponding elementin "showImg" to true
+      set the show list flag to false
+      fetch the abilities of the selected pokemons and replace the current content in "pokemonInfo" with the fetched abilities
+  */
   const handleOnClick = (e) =>{
     const index = e.target.id;
     setTarget(index);
@@ -47,10 +56,14 @@ function PokemonList(){
     });  
   }
 
+  //set the show list flag to true
   const handleReturnClick = (e) =>{
     setShowList(true);
   }
 
+  /*
+      return either the list of pokemons or the details for a individual pokemon
+  */
   return(
     <div>
     {showList ? 

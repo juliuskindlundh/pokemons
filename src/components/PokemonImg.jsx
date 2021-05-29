@@ -3,6 +3,7 @@ import React, {useEffect,useState } from 'react';
 const PokemonImg =(props) =>{
     const [src,setSrc] = useState("");
 
+    //if the url in imgUrls equals "ph" (placeholder) fetch the url to the img and set "src" else set "src" to the existing url
     useEffect(()=>{
         if(String(props.imgUrls[props.index]) == "ph"){
             fetch(props.url).then(data=>data.json()).then(data => {
